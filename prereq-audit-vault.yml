@@ -1,0 +1,39 @@
+---
+- name: Pré-req Audit Vault
+  hosts: all
+
+  tasks:
+    - name: Criar usuário agent_avs
+      user:
+        name: agent_avs
+        groups: oinstall
+        password: "{{ 'Inepaudit2023#' | password_hash('sha512_crypt') }}"
+
+    - name: Definir permissões para /u01/app/oracle/agent_avs/
+      file:
+        path: /u01/app/oracle/agent_avs
+        owner: agent_avs
+        group: oinstall
+        mode: '0755'
+        state: directory
+
+    - name: Instalar Java Openjdk 1.8
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+
+#    - name: Permitir comunicação nas portas TCP 1521 e 1522
+#      firewalld:
+#        port: "{{ item }}/tcp"
+#        permanent: yes
+#        state: enabled
+#      with_items:
+#        - 1521
+#        - 1522
+
+    - name: Salvar e reiniciar serviço Firewalld
+      service:
+        name: firewalld
+        state: stopped
+        enabled: no
+

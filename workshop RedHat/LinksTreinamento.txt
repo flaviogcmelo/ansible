@@ -1,0 +1,8 @@
+# Link para a página de configuração
+https://aap2.demoredhat.com/exercises/ansible_rhel/
+## Red Hat Ansible Automation Platform Workshops
+https://aap2.demoredhat.com/
+
+https://rh5b42.example.opentlc.com/#studentinfo
+https://aap2.demoredhat.com/decks/ansible_rhel.pdf
+

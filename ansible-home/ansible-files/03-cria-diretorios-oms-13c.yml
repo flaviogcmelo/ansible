@@ -1,0 +1,17 @@
+- hosts:  hosts-oms
+  gather_facts: False
+  become: True
+  become_user: root
+  tasks:
+
+  - name: create directory structure for Oracle Management Server (EM) 
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: oracle
+      group: oinstall
+      mode:  0775
+      recurse: yes
+    loop:
+      - /u01/app/oracle/middleware
+      - /u01/app/oracle/agent

@@ -1,0 +1,5 @@
+[ol8]
+guapimirim1 ansible_host=172.29.5.140 ansible_user=root
+[ibm]
+oracle01 ansible_host=172.29.15.231 ansible_user=root
+oracle02 ansible_host=172.29.15.232 ansible_user=root

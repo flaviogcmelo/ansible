@@ -1,0 +1,31 @@
+- hosts:  hosts-oracle19
+  gather_facts: False
+  become: True
+  become_user: root
+  tasks:
+
+   - name: create directory structure for Grid Infrastructure
+     file:
+       path: "{{ item }}"
+       state: directory
+       owner: grid
+       group: oinstall
+       mode:  0775
+       recurse: yes
+     loop:
+       - /u01/app/grid
+       - /u01/app/19.0.0/grid
+
+   - name: create directory structure for Grid Infrastructure
+     file:
+       path: "{{ item }}"
+       state: directory
+       owner: oracle
+       group: oinstall
+       mode:  0775
+       recurse: yes
+     loop:
+       - /u01/app/oracle/product/19.0.0/dbhome_1
+       - /u02/oradata
+       - /u02/fast_recovery_area
+       - /u02/rman

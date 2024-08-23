@@ -1,0 +1,17 @@
+- hosts:  hosts-oracle
+  gather_facts: False
+  become: True
+  become_user: root
+  serial: 50%
+  tasks:
+  - name: add user "oracle" uid=54321
+    user:
+      name: oracle
+      uid: 54321
+      shell: /bin/bash
+      group: oinstall
+      groups: dba,oper,asmdba,asmadmin,asmoper
+      home: /home/oracle
+      password: $6$2Q0b8Oes4O/SvCDJ$qZueNuZQNaceWZaijGC4bH3rflO5DBXky9P6N7cDS0NoN.Jy8.XcoYH/le6BB7Ns73D4je3DyqVI79UOTllbn. 
+      state: present
+

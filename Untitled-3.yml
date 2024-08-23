@@ -1,0 +1,50 @@
+name: Oracle database installation
+
+steps:
+  - name: Prepare the system
+    command: |
+      sudo yum update -y
+      sudo yum install -y oracle-database-preinstall-19c
+      sudo echo "fs.aio-max-nr = 1048576" >> /etc/sysctl.conf
+      sudo echo "fs.file-max = 6815744" >> /etc/sysctl.conf
+      sudo echo "kernel.shmmax = 536870912" >> /etc/sysctl.conf
+      sudo echo "kernel.shmall = 2097152" >> /etc/sysctl.conf
+      sudo echo "kernel.shmmni = 4096" >> /etc/sysctl.conf
+      sudo echo "kernel.sem = 250 32000 100 128" >> /etc/sysctl.conf
+      sudo echo "net.ipv4.ip_local_port_range = 9000 65500" >> /etc/sysctl.conf
+      sudo echo "net.core.rmem_default = 262144" >> /etc/sysctl.conf
+      sudo echo "net.core.rmem_max = 4194304" >> /etc/sysctl.conf
+      sudo echo "net.core.wmem_default = 262144" >> /etc/sysctl.conf
+      sudo echo "net.core.wmem_max = 1048586" >> /etc/sysctl.conf
+    become: yes
+
+  - name: Create the Oracle user
+    command: |
+      sudo groupadd oinstall
+      sudo groupadd dba
+      sudo useradd -g oinstall -G dba oracle
+      sudo passwd oracle
+
+  - name: Copy the Oracle installation files
+    command: |
+      sudo mkdir /u01
+      sudo chown oracle:oinstall /u01
+      sudo chmod 775 /u01
+      sudo mkdir /u01/app/oracle
+      sudo chown oracle:oinstall /u01/app/oracle
+      sudo chmod 775 /u01/app/oracle
+      sudo cp -rp /path/to/installation/files /u01/app/oracle/19c
+
+  - name: Set the environment variables
+    command: |
+      sudo echo "export ORACLE_BASE=/u01/app/oracle" >> /home/oracle/.bashrc
+      sudo echo "export ORACLE_HOME=$ORACLE_BASE/19c" >> /home/oracle/.bashrc
+      sudo echo "export ORACLE_SID=orcl" >> /home/oracle/.bashrc
+      sudo echo "export PATH=$ORACLE_HOME/bin:$PATH" >> /home/oracle/.bashrc
+      sudo echo "export LD_LIBRARY_PATH=$ORACLE_HOME/lib" >> /home/oracle/.bashrc
+
+  - name: Install the Oracle database
+    command: sudo su - oracle -c "/u01/app/oracle/19c/runInstaller -ignoreSysPrereqs -ignorePrereq -waitforcompletion -silent -responseFile /u01/app/oracle/19c/response/db_install.rsp"
+
+  - name: Configure the database
+    command:

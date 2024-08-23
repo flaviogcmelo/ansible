@@ -1,0 +1,36 @@
+vim /home/flavio.melo/.ssh/known_hosts
+ssh-copy-id root@172.29.15.251
+
+
+
+ansible-playbook -i hosts 01-disable_selinux-firewall.yml
+ansible-playbook -i hosts 02-cria_grupos_usuarios.yml
+ansible-playbook -i hosts 02-cria_grupos_usuarios.yml -u root
+ansible-playbook -vvv -k -i hosts 02-cria_grupos_usuarios.yml -u root
+ansible-playbook -vvv -k -i hosts 01-disable_selinux-firewall.yml -u root
+ansible -version
+ansible --version
+ansible-playbook -vvv -k -i hosts 03-cria-diretorios-grid-oracle-18c.yml -u root
+ansible-playbook -vvv -k -i hosts 0400-instala_pacotes_comuns.yml -u root
+ansible-playbook -vvv -k -i hosts 05-monta-bd_srvs_comum.yml -u root
+ansible --version
+ansible-playbook -i hosts site.yml --list-hosts
+ansible-playbook -i hosts site.yml --list-hosts
+ansible-playbook -i hosts site.yml -k
+ansible-playbook -i hosts site.yml -k
+ansible-playbook -i hosts site.yml -k
+ansible-playbook -i hosts 01-disable_selinux-firewall.yml
+ansible-playbook -i hosts 01-disable_selinux-firewall.yml -k
+ansible-playbook -i hosts 02-cria_grupos_usuarios.yml -k
+ansible-playbook -i hosts 03-cria-diretorios-grid-oracle-18c.yml -k
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags oracleasm,oracle-preinstall
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags oracleasm,oracle-preinstall
+ansible-playbook -i hosts 05-monta-bd_srvs_comum.yml -k
+ansible-playbook -i hosts 05-monta-bd_srvs_comum.yml -k
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags oracleasm
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags asmlibs
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags asmlibs
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags asmlibs
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags asmlibs
+ansible-playbook -i hosts 0400-instala_pacotes_comuns.yml -k --tags oracle-preinstall

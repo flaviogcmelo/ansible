@@ -1,0 +1,5 @@
+- hosts: hosts-oracle
+  tasks:
+
+  - name: Instalar Oracle RDBMS PreInstall
+    yum: state=latest disable_gpg_check=yes name=oracle-database-preinstall-19c

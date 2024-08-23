@@ -1,0 +1,82 @@
+- hosts:  all-hosts
+  gather_facts: False
+  become: True
+  become_user: root
+  serial: 50%
+  tasks:
+
+  - name: del user "oracle"
+    user: name=oracle state=absent remove=yes
+
+  - name: del user "grid"
+    user: name=grid state=absent remove=yes
+
+  - name: del group "oinstall"
+    group: name=oinstall state=absent
+
+  - name: del group "asmadmin"
+    group: name=asmadmin state=absent
+
+  - name: del group "asmdba"
+    group: name=asmdba state=absent
+
+  - name: del group "asmoper"
+    group: name=asmoper state=absent
+
+  - name: del group "dba"
+    group: name=dba state=absent
+
+  - name: del group "oper"
+    group: name=oper state=absent
+
+  - name: del group "oracle"
+    group: name=oracle state=absent
+
+  - name: add group "oinstall" gid=54321
+    group: gid=54321 name=oinstall
+
+  - name: add group "dba" gid=54322
+    group: gid=54322 name=dba
+
+  - name: add group "oper" gid=54323
+    group: gid=54323 name=oper
+
+  - name: add group "backupdba" gid=54324
+    group: gid=54324 name=backupdba
+
+  - name: add group "dgdba" gid=54325
+    group: gid=54325 name=dgdba
+
+  - name: add group "kmdba" gid=54326
+    group: gid=54326 name=kmdba
+
+  - name: add group "asmdba" gid=54327
+    group: gid=54327 name=asmdba
+
+  - name: add group "asmaoper" gid=54328
+    group: gid=54328 name=asmoper
+
+  - name: add group "asmadmin" gid=54329
+    group: gid=54329 name=asmadmin
+
+  - name: add user "oracle" uid=54321
+    user:
+      name: oracle
+      uid: 54321
+      shell: /bin/bash
+      group: oinstall
+      groups: dba,oper,asmdba,asmadmin,asmoper
+      home: /home/oracle
+      password: $6$2Q0b8Oes4O/SvCDJ$qZueNuZQNaceWZaijGC4bH3rflO5DBXky9P6N7cDS0NoN.Jy8.XcoYH/le6BB7Ns73D4je3DyqVI79UOTllbn.
+      state: present
+
+  - name: add user "grid" uid=54321
+    user:
+      name: grid
+      uid: 54322
+      shell: /bin/bash
+      group: oinstall
+      groups: asmadmin,asmdba,asmoper,dba
+      home: /home/grid
+      password: $6$2Q0b8Oes4O/SvCDJ$qZueNuZQNaceWZaijGC4bH3rflO5DBXky9P6N7cDS0NoN.Jy8.XcoYH/le6BB7Ns73D4je3DyqVI79UOTllbn.
+      state: present
