@@ -3,6 +3,8 @@
   gather_facts: False
   become: True
   become_user: root
+  vars:
+    password: $6$q.Iq9IwnwF66hTXu$VG.ajC8uIKaPlKwqnJ6sK7UiI9Uv4C7dI60X32uEKdZVkJFz9mkfGEKd3nqSBkWJmAjMSKF/PbTPGqvEi7eVB/
   tasks:
   - name: del user "oracle"
     user: name=oracle state=absent remove=yes
@@ -34,32 +36,35 @@
   - name: add group "oinstall" gid=54321
     group: gid=54321 name=oinstall
 
-  - name: add group "dba" gid=54322
+  - name: Creating the OSDBA Group for Database Installations - add group "dba" gid=54322
     group: gid=54322 name=dba
 
-  - name: add group "oper" gid=54323
+  - name: Creating an OSOPER Group for Database Installations - add group "oper" gid=54323
     group: gid=54323 name=oper
 
-  - name: add group "backupdba" gid=54324
+  - name: Creating the OSBACKUPDBA Group for Database Installations - add group "backupdba" gid=54324
     group: gid=54324 name=backupdba
 
-  - name: add group "dgdba" gid=54325
+  - name: Creating the OSDGDBA Group for Database Installations - add group "dgdba" gid=54325
     group: gid=54325 name=dgdba
 
-  - name: add group "kmdba" gid=54326
+  - name: Creating the OSKMDBA Group for Database Installations - add group "kmdba" gid=54326
     group: gid=54326 name=kmdba
 
   - name: add group "asmdba" gid=54327
     group: gid=54327 name=asmdba
 
-  - name: add group "asmaoper" gid=54328
+  - name: Creating the OSOPER for ASM Group - add group "asmaoper" gid=54328
     group: gid=54328 name=asmoper
 
-  - name: add group "asmadmin" gid=54329
+  - name: Creating the OSASM Group - add group "asmadmin" gid=54329
     group: gid=54329 name=asmadmin
 
+  - name: Creating the OSRACDBA Group for Database Installations - add group "racdba" gid=54330
+    group: gid=54330 name=racdba
+
   - name: add user "oracle" uid=54321
-    user: uid=54321 name=oracle group=oinstall home=/home/oracle groups=dba,oper,asmdba,asmadmin,asmoper password="qwe123" force=yes
+    user: uid=54321 name=oracle group=oinstall home=/home/oracle groups=dba,oper,asmdba,asmadmin,asmoper password=item.password
 
   - name: add user "grid" uid=54322
-    user: uid=54322 name=grid group=oinstall home=/home/grid groups=asmadmin,asmdba,asmoper,dba password="qwe123" force=yes
+    user: uid=54322 name=grid group=oinstall home=/home/grid groups=asmadmin,asmdba,asmoper,dba password=item.password
