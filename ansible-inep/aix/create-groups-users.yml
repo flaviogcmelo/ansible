@@ -4,6 +4,7 @@
   become: True
   become_user: root
   vars:
+    # senha 84Nco0ROrcl1
     password: $6$q.Iq9IwnwF66hTXu$VG.ajC8uIKaPlKwqnJ6sK7UiI9Uv4C7dI60X32uEKdZVkJFz9mkfGEKd3nqSBkWJmAjMSKF/PbTPGqvEi7eVB/
   tasks:
   - name: del user "oracle"

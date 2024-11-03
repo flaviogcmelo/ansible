@@ -1,0 +1,52 @@
+---
+- name: Criação de usuário no Linux com permissões de conexão e shell Bash
+  hosts: soc_user
+  become: yes
+  vars_prompt:
+    - name: "ansible_become_pass"
+      prompt: "Digite a senha de root"
+      private: yes
+  tasks:
+    - name: Criar usuário com shell Bash
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        shell: /bin/bash
+        state: present
+        create_home: yes
+
+    - name: Definir senha do usuário
+      ansible.builtin.command: echo "{{ user_name }}:{{ user_password }}" | chpasswd
+      no_log: true
+
+    - name: Adicionar o usuário ao grupo sudo (opcional)
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        groups: sudo
+        append: yes
+
+    - name: Criar diretório .ssh para o usuário
+      ansible.builtin.file:
+        path: "/home/{{ user_name }}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+
+#    - name: Adicionar chave pública SSH autorizada
+#      ansible.builtin.copy:
+#        dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+#        content: "{{ ssh_public_key }}"
+#        owner: "{{ user_name }}"
+#        group: "{{ user_name }}"
+#        mode: '0600'
+#      when: ssh_public_key is defined
+
+    - name: Garantir que o usuário possa se conectar via SSH
+      ansible.builtin.service:
+        name: sshd
+        state: started
+        enabled: yes
+
+## Passar o valor para as variáveis na chamada do playbook
+# ansible-playbook -i inventario create_user.yml --extra-vars "user_name=soc user_password=Em&Xeeo42%Wvs8vV0a"
+## não utilizado ssh_public_key='conteudo_da_chave'"

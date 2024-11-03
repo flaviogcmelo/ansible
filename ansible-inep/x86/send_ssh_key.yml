@@ -1,0 +1,33 @@
+---
+- name: Enviar chave SSH para host remoto
+  hosts: all
+  become: yes
+  vars:
+    user_name: "usuario"
+    ssh_public_key: "{{ lookup('file', '/home/flavio.melo/.ssh/corp-key_ed25519.pub') }}"
+
+  tasks:
+    - name: Criar diretório .ssh no host remoto
+      ansible.builtin.file:
+        path: "/home/{{ user_name }}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+
+    - name: Copiar chave pública SSH para o host remoto
+      ansible.builtin.copy:
+        dest: "/home/{{ user_name }}/.ssh/authorized_keys"
+        content: "{{ ssh_public_key }}"
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+        mode: '0600'
+
+    - name: Garantir que o SSH está em execução no host remoto
+      ansible.builtin.service:
+        name: sshd
+        state: started
+        enabled: yes
+
+## Passar o valor para as variáveis na chamada do playbook
+#ansible-playbook -i inventario send_ssh_key.yml --extra-vars "user_name=nome_do_usuario"

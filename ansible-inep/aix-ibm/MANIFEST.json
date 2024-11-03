@@ -1,0 +1,40 @@
+{
+ "collection_info": {
+  "namespace": "ibm",
+  "name": "power_aix_oracle_rac_asm",
+  "version": "1.3.1",
+  "authors": [
+   "bhargavaram akula <bhargaku@in.ibm.com>",
+   "Tommy Tse <Tommy.Tse@ibm.com>",
+   "Osman Omer <osmaomer@qa.ibm.com>",
+   "Sudhindra Kumasagi <sudhindra.kumasagi@ibm.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "infrastructure",
+   "ibm",
+   "power",
+   "aix",
+   "oracle",
+   "rac"
+  ],
+  "description": "Ansible content for Installing Oracle 19c RAC on IBM Power Systems running with AIX Operating system",
+  "license": [
+   "Apache-2.0"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "https://github.com/IBM/power-aix-oracle-rac-asm",
+  "documentation": "https://github.com/IBM/power-aix-oracle-rac-asm/tree/main/docs",
+  "homepage": "https://github.com/IBM",
+  "issues": "https://github.com/IBM/power-aix-oracle-rac-asm/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "bc291ab9de6161005bbadccf4c7e053fea6a56b7555f5527b6a94e74acd15890",
+  "format": 1
+ },
+ "format": 1
+}

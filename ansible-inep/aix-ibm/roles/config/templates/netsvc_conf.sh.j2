@@ -1,0 +1,47 @@
+#!/usr/bin/ksh93
+
+# Copyright (c) IBM Corporation 2021
+
+if [ ! -f ./helper.sh ]
+then
+    echo "$(basename $0): helper.sh not found in $(pwd)"
+    exit 1
+fi
+
+. ./helper.sh
+
+  #+ make sure this script is running as this user.
+check_user_is root
+
+################################################################################
+#                                                                              #
+# Main                                                                         #
+#                                                                              #
+################################################################################
+
+export c_netsvc_conf="{{ config.netsvc_conf }}"
+
+FILE=/etc/netsvc.conf
+
+save_original $FILE
+
+  #+ The file MAY NOT have the "hosts =" in it. so put it in.
+  #+
+runcmd_nz "perl -ne 'print if ( /^\s*hosts\s*=/ )' /etc/netsvc.conf"
+if [[ -z $RESOUT ]] ; then #+ didnt find hosts= line, add it
+  runcmd_nz "echo '$c_netsvc_conf' >> $FILE"
+fi
+
+  #+ This covers all other cases (wrong format, etc)
+  #+ 
+runcmd_nz "perl -pi -e 's/^\s*hosts\s*=.*$/$c_netsvc_conf/' /etc/netsvc.conf"
+
+
+  #+ FINALLY, check that its correct!
+runcmd_nz "egrep '^${c_netsvc_conf}$' /etc/netsvc.conf"
+
+touch "{{ done_dir }}/netsvc_conf_done"
+
+echo "$FILE update succeeded."
+
+exit 0
